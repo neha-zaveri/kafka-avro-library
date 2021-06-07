@@ -1,0 +1,14 @@
+.idea/
+.pytest_cache
+tests/.pytest_cache
+coverage_report
+.coverage
+tests_report
+new_package.egg-info
+kafka_avro_library/__pycache__/
+**/__pycache__/
+dp_caps_library_kafka.egg-info
+.mypy_cache/
+.venv
+/dist
+/venv/

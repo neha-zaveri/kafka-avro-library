@@ -1,0 +1,58 @@
+[tool.poetry]
+name = "dp_caps_library_kafka"
+version = "1.3.3"
+description = "This is library to work with Kafka"
+authors = ["Elsevier CAPS Team <caps-ceres-squad@ReedElsevier.com>"]
+readme = "README.md"
+homepage = "https://github.com/elsevier-research/dp-caps-library-kafka"
+repository = "https://github.com/elsevier-research/dp-caps-library-kafka"
+keywords = ["dp_caps_library_kafka"]
+
+[[tool.poetry.source]]
+name = "dp-caps-repository"
+url = "https://rt.artifactory.tio.systems/artifactory/api/pypi/pypi-dp-caps-local/simple"
+
+[tool.poetry.dependencies]
+python = "~3.7"
+confluent-kafka = {extras = ["avro"], version = "1.6.0"}
+dp-caps-library-logging = "^0.1.0"
+dp-caps-library-common-utils = "~0.1.1"
+pytest-timeout = "~1.4.2"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+pytest-html = "^2.1.0"
+pytest-cov = "^2.8.1"
+black = "^19.10b0"
+pre-commit = "^2.1.1"
+flake8 = "^3.7.9"
+mypy = "^0.770"
+pytest-docker-compose = "^3.1.2"
+jsondiff = "^1.2.0"
+pytest-mock = "^3.1.0"
+
+[tool.black]
+line-length = 80
+target-version = ['py36', 'py37', 'py38']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | tests/resources
+  | tests/docker
+)/
+'''
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
+

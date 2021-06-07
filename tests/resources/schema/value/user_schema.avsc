@@ -1,0 +1,15 @@
+{
+  "name": "user_management",
+  "type": "record",
+  "namespace": "com.admin",
+  "fields": [
+    {
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "name": "id",
+      "type": "string"
+    }
+  ]
+}
