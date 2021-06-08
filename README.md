@@ -14,10 +14,32 @@ The kafka-library is a python based library.
 `docker compose up &`
 - Verify Containers are started successfully 
   `docker compose ps`
+  
+- Create Topic - Link
+ 
+      curl --location --request POST 'localhost:8082/v3/clusters/0El9sA1xQamn3a2ySmea8A/topics' \
+       --header 'Content-Type: application/json' \
+       --data-raw ' {
+             "topic_name": "user"
+       }
+
+- Register Schema
+
+       curl --location --request POST 'http://localhost:8081/subjects/user/versions' \
+        --header 'Content-Type: application/json' \
+       --data-raw '
+        {"schema": "{\"name\":\"user_management\",\"type\":\"record\",\"namespace\":\"com.admin\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"id\",\"type\":\"string\"}]}"}'
+
+- Publishing Message 
+
+- Consuming Message
 
 ### Run tests
 `$ poetry run pytest --docker-compose=docker-compose.yml` Running tests starts confluent kafka stack using docker-compose.
 
+
+
+### Example Usage
 #### Producer 
 - The  Producer in `producer` module implements latest Kafka 
 - The `send_message()` method will emit the ProducerMessage object onto the topic
@@ -37,12 +59,7 @@ message = create_producer_message(
 producer.send_message(message)
 ```
 
-### Example Usage
 #### Consumer
-- The Consumer in `/consumer` module implements latest Kafka event 
-
-Default Consumer
-
 ```python
 from kafka_avro_library.consumer import AvroConsumer
 
