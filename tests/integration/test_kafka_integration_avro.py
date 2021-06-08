@@ -2,7 +2,7 @@ from typing import Dict
 
 from confluent_kafka.schema_registry import Schema
 
-from kafka_avro_library.consumer import AVROConsumer
+from kafka_avro_library.consumer import AvroConsumer
 from kafka_avro_library.message import (
     create_producer_message,
 )
@@ -46,7 +46,7 @@ def test_end_to_end_avro(kafka_cluster_confluent_avro: Dict[str, str]) -> None:
         "group.id": "test-group",
         "auto.offset.reset": "earliest",
     }
-    consumer = AVROConsumer(consumer_config, TOPIC)
+    consumer = AvroConsumer(consumer_config, TOPIC)
     with consumer as it:
         message = next(it())
         assert message.key() == TEST_MESSAGE.key

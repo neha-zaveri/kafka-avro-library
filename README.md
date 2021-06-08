@@ -44,7 +44,7 @@ producer.send_message(message)
 Default Consumer
 
 ```python
-from kafka_avro_library.consumer import AVROConsumer
+from kafka_avro_library.consumer import AvroConsumer
 
 __consumer = AvroConsumer(consumer_config, "test-topic")
 __consumer.subscribe(on_next=do_something_on_receiving_message)

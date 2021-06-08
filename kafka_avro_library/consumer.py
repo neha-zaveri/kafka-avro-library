@@ -166,7 +166,7 @@ class BaseConsumer(ContextManager[Callable[..., Iterator[KafkaMessage]]]):
             on_completed()
 
 
-class AVROConsumer(BaseConsumer):
+class AvroConsumer(BaseConsumer):
     def __init__(
         self, _config: Dict[str, Any], topic: str, listen_time: int = 0
     ):
