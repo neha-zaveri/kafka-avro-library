@@ -9,10 +9,14 @@ The kafka-library is a python based library.
 ### Install dependencies
 `$ poetry install`
 
-### Run tests
-`$ poetry run pytest --docker-compose=docker-compose.yml`
-Running tests starts confluent kafka stack using docker-compose.
+### Running containers in local
+- Start Containers
+`docker compose up &`
+- Verify Containers are started successfully 
+  `docker compose ps`
 
+### Run tests
+`$ poetry run pytest --docker-compose=docker-compose.yml` Running tests starts confluent kafka stack using docker-compose.
 
 #### Producer 
 - The  Producer in `producer` module implements latest Kafka 
@@ -22,13 +26,13 @@ Running tests starts confluent kafka stack using docker-compose.
 import uuid
 
 from kafka_avro_library.message import create_producer_message
-from kafka_avro_library.producer import ConfluentProducer
+from kafka_avro_library.producer import AvroProducer
 
-producer = ConfluentProducer(producer_config, topic="test-topic")
+producer = AvroProducer(producer_config, topic="test-topic")
 message = create_producer_message(
-   value={"type": "Data", "id": str(uuid.uuid4())},
-   trace_id="trace_id",
-   name="",
+    value={"type": "Data", "id": str(uuid.uuid4())},
+    trace_id="trace_id",
+    name="",
 )
 producer.send_message(message)
 ```
@@ -40,8 +44,8 @@ producer.send_message(message)
 Default Consumer
 
 ```python
-from kafka_avro_library.consumer import ConfluentConsumer
+from kafka_avro_library.consumer import AVROConsumer
 
-__consumer = ConfluentConsumer(consumer_config, "test-topic")
+__consumer = AvroConsumer(consumer_config, "test-topic")
 __consumer.subscribe(on_next=do_something_on_receiving_message)
 ```

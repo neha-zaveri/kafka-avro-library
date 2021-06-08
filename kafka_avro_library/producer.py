@@ -54,7 +54,7 @@ class BaseProducer:
         logging.info("Messages were produced to topic {}!".format(topic))
 
 
-class ConfluentProducer(BaseProducer):
+class AvroProducer(BaseProducer):
     def __init__(self, _config: Dict[Any, Any], topic: str) -> None:
         config = copy.deepcopy(_config)
         schema_registry_client = build_schema_registry_client(config)

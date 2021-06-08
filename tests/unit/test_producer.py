@@ -4,7 +4,7 @@ import pytest
 
 from kafka_avro_library.exceptions import MessageDeliveryFailure
 from kafka_avro_library.message import create_producer_message
-from kafka_avro_library.producer import ConfluentProducer, BaseProducer
+from kafka_avro_library.producer import AvroProducer, BaseProducer
 
 TOPIC = "normalization"
 
@@ -46,4 +46,4 @@ def test_on_delivery_does_not_raise_exception_if_no_error_message_is_present() -
     mock_message.offset.return_value = 4
 
     # Does not raise an exception
-    ConfluentProducer.acknowledge(err=None, msg=mock_message)
+    AvroProducer.acknowledge(err=None, msg=mock_message)

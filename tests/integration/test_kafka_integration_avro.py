@@ -2,11 +2,11 @@ from typing import Dict
 
 from confluent_kafka.schema_registry import Schema
 
-from kafka_avro_library.consumer import ConfluentConsumer
+from kafka_avro_library.consumer import AVROConsumer
 from kafka_avro_library.message import (
     create_producer_message,
 )
-from kafka_avro_library.producer import ConfluentProducer
+from kafka_avro_library.producer import AvroProducer
 from kafka_avro_library.utils import (
     build_schema_registry_client,
     load_avro_schema_from_file,
@@ -39,14 +39,14 @@ def register_schema_for_topic(config: Dict[str, str]) -> None:
 
 def test_end_to_end_avro(kafka_cluster_confluent_avro: Dict[str, str]) -> None:
     register_schema_for_topic(kafka_cluster_confluent_avro)
-    producer = ConfluentProducer(kafka_cluster_confluent_avro, TOPIC)
+    producer = AvroProducer(kafka_cluster_confluent_avro, TOPIC)
     producer.send_message(TOPIC, TEST_MESSAGE)
     consumer_config = {
         **kafka_cluster_confluent_avro,
         "group.id": "test-group",
         "auto.offset.reset": "earliest",
     }
-    consumer = ConfluentConsumer(consumer_config, TOPIC)
+    consumer = AVROConsumer(consumer_config, TOPIC)
     with consumer as it:
         message = next(it())
         assert message.key() == TEST_MESSAGE.key
