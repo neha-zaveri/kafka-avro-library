@@ -30,14 +30,8 @@ The kafka-library is a python based library.
        --data-raw '
         {"schema": "{\"name\":\"user_management\",\"type\":\"record\",\"namespace\":\"com.admin\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"id\",\"type\":\"string\"}]}"}'
 
-- Publishing Message 
-
-- Consuming Message
-
 ### Run tests
 `$ poetry run pytest --docker-compose=docker-compose.yml` Running tests starts confluent kafka stack using docker-compose.
-
-
 
 ### Example Usage
 #### Producer 
