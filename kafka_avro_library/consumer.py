@@ -18,8 +18,6 @@ from confluent_kafka.serialization import (
     SerializationError,
     StringDeserializer,
 )
-from dp_caps_library_logging import logging_utils
-
 from kafka_avro_library import utils
 from kafka_avro_library.message import KafkaMessage
 from kafka_avro_library.message_header import build_message_header
@@ -70,7 +68,7 @@ class _MessageWithError:
 
 class BaseConsumer(ContextManager[Callable[..., Iterator[KafkaMessage]]]):
     def __init__(
-        self, _consumer: Consumer, _topic: str, listen_time: int = 0,
+            self, _consumer: Consumer, _topic: str, listen_time: int = 0,
     ) -> None:
         self._consumer = _consumer
         self._topic: str = _topic
@@ -88,12 +86,11 @@ class BaseConsumer(ContextManager[Callable[..., Iterator[KafkaMessage]]]):
 
     def __exit__(self, exc_type: Any, exc_val: Any, exc_tb: Any) -> None:
         self._consumer.close()
-        logging_utils.clear_logging_context()
         logging.info("Consumer stopped.")
 
     def _iterator(self) -> Iterator[KafkaMessage]:
         while (
-            self.listen_end_time is None or time.time() < self.listen_end_time
+                self.listen_end_time is None or time.time() < self.listen_end_time
         ):
             try:
                 message = None
@@ -105,7 +102,6 @@ class BaseConsumer(ContextManager[Callable[..., Iterator[KafkaMessage]]]):
                         )
                         continue
                     kafka_message: Any = KafkaMessage(message)
-                    self._set_logging_context(kafka_message)
                 except ValueDeserializationError as ex:
                     logging.error(
                         "Wrapping DeSerializerError as a _MessageWithError message",
@@ -116,25 +112,17 @@ class BaseConsumer(ContextManager[Callable[..., Iterator[KafkaMessage]]]):
                     f"Message received: topic={self._topic}, {kafka_message}"
                 )
                 yield kafka_message
-
             finally:
-                logging_utils.clear_logging_context()
-
-    @staticmethod
-    def _set_logging_context(message: KafkaMessage) -> None:
-        msg_header = message.headers()
-        if msg_header:
-            logging_context = {"trace_id": msg_header.traceId}
-            logging_utils.set_logging_context(logging_context)
+                return None
 
     def subscribe(
-        self,
-        on_next: Callable[[KafkaMessage], None],
-        on_error: Callable[[Exception], None] = _default_on_error,
-        on_deserialization_error: Callable[
-            [KafkaMessage], None
-        ] = _default_on_deserialization_error,
-        on_completed: Callable[[], None] = _default_on_completed,
+            self,
+            on_next: Callable[[KafkaMessage], None],
+            on_error: Callable[[Exception], None] = _default_on_error,
+            on_deserialization_error: Callable[
+                [KafkaMessage], None
+            ] = _default_on_deserialization_error,
+            on_completed: Callable[[], None] = _default_on_completed,
     ) -> None:
         try:
             with self as subscription:
@@ -142,7 +130,7 @@ class BaseConsumer(ContextManager[Callable[..., Iterator[KafkaMessage]]]):
                     try:
                         if message.eventError():
                             if isinstance(
-                                message.eventError(), SerializationError
+                                    message.eventError(), SerializationError
                             ):
                                 on_deserialization_error(message)
                         else:
@@ -168,7 +156,7 @@ class BaseConsumer(ContextManager[Callable[..., Iterator[KafkaMessage]]]):
 
 class AvroConsumer(BaseConsumer):
     def __init__(
-        self, _config: Dict[str, Any], topic: str, listen_time: int = 0
+            self, _config: Dict[str, Any], topic: str, listen_time: int = 0
     ):
         config = copy.deepcopy(_config)
         schema_registry_conf = {

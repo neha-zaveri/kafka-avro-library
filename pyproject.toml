@@ -1,22 +1,15 @@
 [tool.poetry]
-name = "dp_caps_library_kafka"
-version = "1.3.3"
+name = "kafka_library"
+version = "0.0.1"
 description = "This is library to work with Kafka"
-authors = ["Elsevier CAPS Team <caps-ceres-squad@ReedElsevier.com>"]
+authors = ["Neha"]
 readme = "README.md"
-homepage = "https://github.com/elsevier-research/dp-caps-library-kafka"
-repository = "https://github.com/elsevier-research/dp-caps-library-kafka"
-keywords = ["dp_caps_library_kafka"]
-
-[[tool.poetry.source]]
-name = "dp-caps-repository"
-url = "https://rt.artifactory.tio.systems/artifactory/api/pypi/pypi-dp-caps-local/simple"
+homepage = "https://github.com/neha-zaveri/kafka-avro-library"
+repository = "https://github.com/neha-zaveri/kafka-avro-library"
 
 [tool.poetry.dependencies]
 python = "~3.7"
 confluent-kafka = {extras = ["avro"], version = "1.6.0"}
-dp-caps-library-logging = "^0.1.0"
-dp-caps-library-common-utils = "~0.1.1"
 pytest-timeout = "~1.4.2"
 
 [tool.poetry.dev-dependencies]
